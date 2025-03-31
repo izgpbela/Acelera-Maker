@@ -16,7 +16,8 @@ public class ProdutoTest {
 		
 		System.out.println(p1.nome);
 		System.out.println(p2.nome);
-		
+		                    
+		                       //metodo   e parametro 
 		double precoFinal1 = p1.precoComDesconto();
 		double precoFinal2 = p2.precoComDesconto();
 		double mediaCarrinho = (precoFinal1 + precoFinal2) / 2;
