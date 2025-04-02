@@ -7,6 +7,7 @@ public class DesafioClassDataTest {
 		
 		var d2 = new DesafioClasseData(31, 12, 2020);
 		
+		@SuppressWarnings("unused")
 		String dataFormatada1 = d1.ObterDataFormatada();
 		
 		System.out.println(d1.ObterDataFormatada());
