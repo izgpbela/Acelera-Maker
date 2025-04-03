@@ -3,7 +3,7 @@
 ![Java Logo](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white) 
 ![Progresso](https://img.shields.io/badge/Progresso-25%25-brightgreen)
 
-Repositório dedicado aos meus estudos do curso da Udemy de Java, onde registro exercícios, projetos e anotações importantes da minha evolução nesse processo do Acelera Maker - MOntral.
+Repositório dedicado aos meus estudos do curso da Udemy de Java, onde registro exercícios, projetos e anotações importantes da minha evolução nesse processo do Acelera Maker - Montral.
 
 ## 🌟 Sobre Minha Jornada
 
