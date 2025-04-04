@@ -1,9 +1,9 @@
 # 💻 Meu Aprendizado em Java - Acelera Maker Montreal
 
 ![Java Logo](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white) 
-![Progresso](https://img.shields.io/badge/Progresso-25%25-brightgreen)
+![Progresso](https://img.shields.io/badge/Progresso-50%25-brightgreen)
 
-Repositório dedicado aos meus estudos do curso da Udemy de Java, onde registro exercícios, projetos e anotações importantes da minha evolução nesse processo do Acelera Maker - Montral.
+Repositório dedicado aos meus estudos do curso da Udemy de Java, onde registro exercícios, projetos e anotações importantes da minha evolução nesse processo do Acelera Maker - Montreal.
 
 ## 🌟 Sobre Minha Jornada
 
@@ -20,6 +20,8 @@ Este repositório documenta meu aprendizado em Java, contendo:
 | <kbd>JDK 17</kbd> | 17.0.8      | `JAVA_HOME` configurado                |
 | <kbd>Eclipse</kbd> | 2023-12    | Com plugins Java EE e Spring Tools     |
 | <kbd>MySQL</kbd>  | 8.0.33     | Servidor local (porta 3306)            |
+| <kbd>Spring Boot</kbd> | 2.7.3  | Configurado para desenvolvimento web   |
+| <kbd>Postman</kbd> | 10.0.0    | Testes de APIs                         |
 
 🛠️ <strong>Ferramentas complementares:</strong> Git, Maven, DBeaver (para MySQL)
 
@@ -34,6 +36,7 @@ Este repositório documenta meu aprendizado em Java, contendo:
 ✔️ **Criação e Consumo de APIs REST**  
 ✔️ **Projetos Práticos para Aplicação dos Conceitos**  
 ✔️ **Exercícios dos módulos**
+✔️ **Spring Boot e Desenvolvimento Web**
 
 ## 🔥 O Que Estou Aprendendo Atualmente
 
@@ -41,6 +44,7 @@ Este repositório documenta meu aprendizado em Java, contendo:
 - 🚧 Programação Orientada a Objetos
 - ☑️ Trabalhando com Banco de Dados
 - ☑️ Desenvolvimento de APIs
+- ☑️ Desenvolvimento com Spring Boot
 
 ## 🎯 Metas de Aprendizado
 
@@ -48,6 +52,7 @@ Este repositório documenta meu aprendizado em Java, contendo:
 2. Implementar conexão com bancos de dados
 3. Desenvolver uma API REST completa
 4. Construir um projeto full-stack com Java
+5. Aprender Spring Boot e suas funcionalidades
 
 ## 📝 Meu Processo de Estudo
 
@@ -64,12 +69,14 @@ Este repositório documenta meu aprendizado em Java, contendo:
 | Entender polimorfismo    | Pratiquei com casos reais     |
 | Conexão com DB           | Usei padrão DAO               |
 | Tratamento de exceções   | Implementei logs detalhados   |
+| Configuração do Spring Boot | Segui a documentação oficial |
 
 ## 📈 Próximos Passos
 
-- [ ] Finalizar módulo de POO
 - [ ] Iniciar projetos com Spring Boot
 - [ ] Explorar Java moderno (records, streams)
+- [ ] Desenvolver aplicações web com Spring Boot
+- [ ] Utilizar ferramentas como Postman
 
 ## 🤝 Contribuição
 
