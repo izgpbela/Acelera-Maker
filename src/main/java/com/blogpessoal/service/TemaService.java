@@ -36,14 +36,14 @@ public class TemaService {
 
     public ThemeResponse getThemeById(Long id) {
         return temaRepository.findById(id)
-                .map(mapper::fromTheme)
+                .map(mapper::fromTema)
                 .orElseThrow(() -> new ThemeNotFoundException(THEME_NOT_FOUND));
     }
 
     public List<ThemeResponse> getAllThemes() {
         return temaRepository.findAll()
                 .stream()
-                .map(mapper::fromTheme)
+                .map(mapper::fromTema)
                 .toList();
     }
 
@@ -51,8 +51,8 @@ public class TemaService {
         Tema tema = temaRepository.findById(id)
                 .orElseThrow(() -> new ThemeNotFoundException(THEME_NOT_FOUND));
 
-        mergeTheme(tema, request);
-        return mapper.fromTheme(tema);
+        mergeTema(tema, request);
+        return mapper.fromTema(tema);
     }
 
     private void mergeTema(Tema tema, CreateThemeRequest request) {

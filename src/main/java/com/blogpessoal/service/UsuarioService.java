@@ -50,20 +50,20 @@ public class UsuarioService {
 	        if(StringUtils.isNotBlank(request.foto())) usuario.setPhoto(request.foto());
 	    }
 
-	    public UserResponse updateUser(UUID userId, UpdateUserRequest request) {
+	    public UserResponse updateUser(UUID usuarioId, UpdateUserRequest request) {
 	        var user = repository
-	                .findById(userId)
-	                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND + userId));
+	                .findById(usuarioId)
+	                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND + usuarioId));
 
 	        setUser(user, request);
-	        return mapper.fromUser(user);
+	        return mapper.fromUser(usuario);
 	    }
 
-	    public UserResponse getUserById(UUID userId) {
+	    public UserResponse getUserById(UUID usuarioId) {
 	        return repository
-	                .findById(userId)
+	                .findById(usuarioId)
 	                .map(this.mapper::fromUser)
-	                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND + userId));
+	                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND + usuarioId));
 	    }
 
 	    public List<UserResponse> findAllUsers() {
@@ -73,10 +73,10 @@ public class UsuarioService {
 	                .toList();
 	    }
 
-	    public void deleteUser(UUID userId) {
-	        if(!repository.existsById(userId))
-	            throw new UserNotFoundException(String.format("User with id: %s not found", userId));
+	    public void deleteUser(UUID usuarioId) {
+	        if(!repository.existsById(usuarioId))
+	            throw new UserNotFoundException(String.format("User with id: %s not found", usuarioId));
 
-	        repository.deleteById(userId);
+	        repository.deleteById(usuarioId);
 	    }
 }

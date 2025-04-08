@@ -1,7 +1,7 @@
 package com.blogpessoal.security;
 
-import org.acelera.blogmaker.security.JwtAuthenticationFilter;
-import org.acelera.blogmaker.security.UserDetailsServiceImpl;
+import com.blogpessoal.security.JwtAuthenticationFilter;
+import com.blogpessoal.security.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

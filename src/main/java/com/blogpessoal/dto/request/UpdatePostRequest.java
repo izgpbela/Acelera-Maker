@@ -5,9 +5,9 @@ import com.blogpessoal.model.Post;
 public record UpdatePostRequest(
         String title,
         String content,
-        Long themeId
+        Long temaId
 ) {
     public UpdatePostRequest(Post post) {
-        this(post.getTitle(), post.getContent(), post.getTheme() != null ? post.getTheme().getId() : null);
+        this(post.getTitle(), post.getContent(), post.getTema() != null ? post.getTema().getId() : null);
     }
 }

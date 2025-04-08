@@ -2,18 +2,18 @@ package com.blogpessoal.service;
 
 import io.micrometer.common.util.StringUtils;
 import com.blogpessoal.exception.PostAlreadyExistException;
-import org.acelera.blogmaker.exception.PostNotFoundException;
-import org.acelera.blogmaker.exception.ThemeNotFoundException;
-import org.acelera.blogmaker.exception.UserNotFoundException;
-import org.acelera.blogmaker.model.Post;
-import org.acelera.blogmaker.model.Theme;
-import org.acelera.blogmaker.model.dto.request.CreatePostRequest;
-import org.acelera.blogmaker.model.dto.request.UpdatePostRequest;
-import org.acelera.blogmaker.model.dto.response.PostResponse;
-import org.acelera.blogmaker.repository.PostRepository;
-import org.acelera.blogmaker.repository.ThemeRepository;
-import org.acelera.blogmaker.repository.UserRepository;
-import org.acelera.blogmaker.services.mapper.PostMapper;
+import com.blogpessoal.exception.PostNotFoundException;
+import com.blogpessoal.exception.ThemeNotFoundException;
+import com.blogpessoal.exception.UserNotFoundException;
+import com.blogpessoal.model.Post;
+import com.blogpessoal.model.Tema;
+import com.blogpessoal.dto.request.CreatePostRequest;
+import com.blogpessoal.dto.request.UpdatePostRequest;
+import com.blogpessoal.dto.response.PostResponse;
+import com.blogpessoal.repository.PostRepository;
+import com.blogpessoal.repository.TemaRepository;
+import com.blogpessoal.repository.UsuarioRepository;
+import com.blogpessoal.service.maps.PostMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,98 +22,100 @@ import java.util.UUID;
 @Service
 public class PostService {
     
-	private final PostRepository repository;
-    private final UserRepository userRepository;
-    private final ThemeRepository themeRepository;
-    private final PostMapper mapper;
+	private final PostRepository postRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final TemaRepository temaRepository;
+    private final PostMapper postMapper;
     private static final String POST_NOT_FOUND = "Post not found with id: ";
 
-    public PostService(PostRepository repository, PostMapper mapper, ThemeRepository themeRepository, UserRepository userRepository) {
-        this.repository = repository;
-        this.mapper = mapper;
-        this.themeRepository = themeRepository;
-        this.userRepository = userRepository;
+    public PostService(PostRepository postRepository, 
+                     UsuarioRepository usuarioRepository,
+                     TemaRepository temaRepository,
+                     PostMapper postMapper) {
+        this.postRepository = postRepository;
+        this.usuarioRepository = usuarioRepository;
+        this.temaRepository = temaRepository;
+        this.postMapper = postMapper;
     }
 
-    public Long createPost(CreatePostRequest request, UUID userId, Long themeId) {
-        var user = userRepository
-                .findById(userId)
-                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
+    @Transactional
+    public Long createPost(CreatePostRequest request, UUID usuarioId, Long temaId) {
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + usuarioId));
 
-        var theme = themeId == null ? null : themeRepository.findById(themeId)
-                .orElseThrow(() -> new ThemeNotFoundException("Theme not found with id: " + themeId));
+        Tema tema = temaId == null ? null : temaRepository.findById(temaId)
+                .orElseThrow(() -> new ThemeNotFoundException("Theme not found with id: " + temaId));
 
-        boolean postTitleExists = repository.existsByTitle(request.title());
-        boolean postContentExists = repository.existsByContent(request.content());
-
-        if (postTitleExists && postContentExists) {
+        if (postRepository.existsByTituloAndConteudo(request.title(), request.content())) {
             throw new PostAlreadyExistException("Post already exists with the same title and content");
         }
 
-        Post post = mapper.toPost(request, user, theme);
-        post = repository.save(post);
+        Post post = postMapper.toPost(request, usuario, tema);
+        post = postRepository.save(post);
         return post.getId();
     }
 
+    @Transactional(readOnly = true)
     public PostResponse getPostById(Long postId) {
-        return repository
-                .findById(postId)
-                .map(mapper::fromPost)
-                .orElseThrow(() -> new PostNotFoundException(POST_NOT_FOUND));
+        return postRepository.findById(postId)
+                .map(postMapper::toPostResponse)
+                .orElseThrow(() -> new PostNotFoundException(POST_NOT_FOUND + postId));
     }
 
+    @Transactional(readOnly = true)
     public List<PostResponse> getAllPosts() {
-        return repository.findAll()
+        return postRepository.findAll()
                 .stream()
-                .map(mapper::fromPost)
+                .map(postMapper::toPostResponse)
                 .toList();
     }
 
-    public PostResponse updatePost(UpdatePostRequest request, Long postId, Long themeId) {
-        var post = repository
-                .findById(postId)
-                .orElseThrow(() -> new PostNotFoundException(POST_NOT_FOUND));
+    @Transactional
+    public PostResponse updatePost(UpdatePostRequest request, Long postId, Long temaId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new PostNotFoundException(POST_NOT_FOUND + postId));
 
-        var theme = themeId == null ? null : themeRepository.findById(themeId)
-                .orElseThrow(() -> new ThemeNotFoundException("Theme not found with id: " + themeId));
-        setPost(post, request, theme);
-        return mapper.fromPost(post);
+        Tema tema = temaId == null ? null : temaRepository.findById(temaId)
+                .orElseThrow(() -> new ThemeNotFoundException("Theme not found with id: " + temaId));
+
+        updatePostFields(post, request, tema);
+        postRepository.save(post);
+        return postMapper.toPostResponse(post);
     }
 
-    private void setPost(Post post, UpdatePostRequest request, Theme theme) {
-        mergePost(post, request,theme);
-        repository.save(post);
+    private void updatePostFields(Post post, UpdatePostRequest request, Tema tema) {
+        if (StringUtils.isNotBlank(request.title())) {
+            post.setTitulo(request.title());
+        }
+        if (StringUtils.isNotBlank(request.content())) {
+            post.setConteudo(request.content());
+        }
+        post.setTema(tema);
     }
 
-    private void mergePost(Post post, UpdatePostRequest request, Theme theme) {
-        if (StringUtils.isNotBlank(request.title())) post.setTitle(request.title());
-
-        if(StringUtils.isNotBlank(request.content())) post.setContent(request.content());
-
-        post.setTheme(theme);
-    }
-
+    @Transactional
     public void deletePost(Long postId) {
-        var post = repository
-                .findById(postId)
-                .orElseThrow(() -> new PostNotFoundException(POST_NOT_FOUND));
-
-        repository.delete(post);
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new PostNotFoundException(POST_NOT_FOUND + postId));
+        postRepository.delete(post);
     }
 
-    public List<PostResponse> filterPosts(UUID userId, Long themeId) {
+    @Transactional(readOnly = true)
+    public List<PostResponse> filterPosts(UUID usuarioId, Long temaId) {
         List<Post> posts;
 
-        if (userId != null && themeId != null) {
-            posts = repository.findByUserIdAndThemeId(userId, themeId);
-        } else if (userId != null) {
-            posts = repository.findByUserId(userId);
-        } else if (themeId != null) {
-            posts = repository.findByThemeId(themeId);
+        if (usuarioId != null && temaId != null) {
+            posts = postRepository.findByUsuarioIdAndTemaId(usuarioId, temaId);
+        } else if (usuarioId != null) {
+            posts = postRepository.findByUsuarioId(usuarioId);
+        } else if (temaId != null) {
+            posts = postRepository.findByTemaId(temaId);
         } else {
-            posts = repository.findAll();
+            posts = postRepository.findAll();
         }
 
-        return posts.stream().map(mapper::fromPost).toList();
+        return posts.stream()
+                .map(postMapper::toPostResponse)
+                .toList();
     }
 }

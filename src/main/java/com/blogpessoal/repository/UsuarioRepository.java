@@ -1,7 +1,7 @@
 package com.blogpessoal.repository;
 
 import io.micrometer.common.lang.NonNull;
-import org.acelera.blogmaker.model.User;
+import com.blogpessoal.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

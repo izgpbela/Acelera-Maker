@@ -13,9 +13,9 @@ public record CreatePostRequest(
         @NotBlank(message = "{required.content}")
         String content,
 
-        Long themeId,
+        Long temaId,
 
-        @NotNull(message = "{required.user}")
-        UUID userId
+        @NotNull(message = "{required.usuario}")
+        UUID usuarioId
 ) {
 }

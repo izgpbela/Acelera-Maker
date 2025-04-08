@@ -9,6 +9,6 @@ public record UpdateUserRequest(
         String foto
 ) {
     public UpdateUserRequest(Usuario usuario) {
-        this(usuario.getName(), usuario.getEmail(), usuario.getPassword(), usuario.getfoto());
+        this(usuario.getName(), usuario.getEmail(), usuario.getPassword(), usuario.getFoto());
     }
 }

@@ -6,6 +6,7 @@ import com.blogpessoal.dto.request.AuthRequest;
 import com.blogpessoal.dto.request.CreateUserRequest;
 import com.blogpessoal.dto.response.AuthResponse;
 import com.blogpessoal.security.JwtUtil;
+import com.blogpessoal.security.UserDetailsImpl;
 import com.blogpessoal.service.UsuarioService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,7 +23,7 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
-    private final UsuarioService userService;
+    private final UsuarioService usuarioService;
 
     public AuthController(AuthenticationManager authenticationManager,
                           JwtUtil jwtUtil, UsuarioService usuarioService) {
@@ -52,8 +53,8 @@ public class AuthController {
     }
 
     private ResponseEntity<AuthResponse> register(CreateUserRequest request, Role role) {
-        var user = userService.createUser(request, role);
-        UserDetailsImpl userDetails = new UserDetailsImpl(user);
+        var user = usuarioService.createUser(request, role);
+        UserDetailsImpl userDetails = new UserDetailsImpl(usuario);
         String token = jwtUtil.generateToken(userDetails);
         return ResponseEntity.ok(new AuthResponse(token));
     }

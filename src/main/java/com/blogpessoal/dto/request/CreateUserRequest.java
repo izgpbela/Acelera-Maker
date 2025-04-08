@@ -14,5 +14,5 @@ public record CreateUserRequest (
         @NotBlank(message = "{required.password}")
         String password,
 
-        String photo
+        String foto
 ){}

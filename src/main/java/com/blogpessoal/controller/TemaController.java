@@ -1,16 +1,25 @@
 package com.blogpessoal.controller;
 
 
-import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
-import org.acelera.blogmaker.model.dto.request.CreateThemeRequest;
-import org.acelera.blogmaker.model.dto.response.ThemeResponse;
-import org.acelera.blogmaker.services.ThemeService;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import java.net.URI;
 import java.util.List;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.blogpessoal.dto.request.CreateThemeRequest;
+import com.blogpessoal.dto.response.ThemeResponse;
+import com.blogpessoal.service.TemaService;
+
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/themes")
@@ -25,34 +34,34 @@ public class TemaController {
     @PostMapping
     @Transactional
     public ResponseEntity<Void> createTheme(@Valid @RequestBody CreateThemeRequest request) {
-        Long themeId = temaService.createTheme(request);
-        return ResponseEntity.created(URI.create("/api/v1/themes/" + themeId)).build();
+        Long temaId = temaService.createTheme(request);
+        return ResponseEntity.created(URI.create("/api/v1/tema/" + temaId)).build();
     }
 
-    @GetMapping("/{themeId}")
-    public ResponseEntity<ThemeResponse> getTheme(@PathVariable Long themeId) {
-        TemaResponse theme = temaService.getThemeById(themeId);
-        return ResponseEntity.ok(theme);
+    @GetMapping("/{temaId}")
+    public ResponseEntity<ThemeResponse> getTheme(@PathVariable Long temaId) {
+        ThemeResponse tema = temaService.getThemeById(temaId);
+        return ResponseEntity.ok(tema);
     }
 
     @GetMapping
-    public ResponseEntity<List<TemaResponse>> getAllThemes() {
-        List<TemaResponse> themes = temaService.getAllThemes();
-        return ResponseEntity.ok(themes);
+    public ResponseEntity<List<ThemeResponse>> getAllThemes() {
+        List<ThemeResponse> tema = temaService.getAllThemes();
+        return ResponseEntity.ok(tema);
     }
 
-    @PutMapping("/{themeId}")
+    @PutMapping("/{temaId}")
     @Transactional
-    public ResponseEntity<TemaResponse> updateTheme(@PathVariable Long themeId,
+    public ResponseEntity<ThemeResponse> updateTheme(@PathVariable Long temaId,
                                                      @Valid @RequestBody CreateThemeRequest request) {
-        TemaResponse updatedTheme = temaService.updateTheme(themeId, request);
+        ThemeResponse updatedTheme = temaService.updateTheme(temaId, request);
         return ResponseEntity.ok(updatedTheme);
     }
 
-    @DeleteMapping("/{themeId}")
+    @DeleteMapping("/{temaId}")
     @Transactional
-    public ResponseEntity<Void> deleteTheme(@PathVariable Long themeId) {
-        temaService.deleteTheme(themeId);
+    public ResponseEntity<Void> deleteTheme(@PathVariable Long temaId) {
+        temaService.deleteTema(temaId);
         return ResponseEntity.noContent().build();
     }
 

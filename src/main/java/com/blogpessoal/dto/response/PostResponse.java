@@ -7,7 +7,7 @@ public record PostResponse(
         String content,
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
-        String theme,
+        String tema,
         String name,
         String role
 ) {

@@ -70,11 +70,11 @@ public class Usuario implements UserDetails {
         this.password = password;
     }
 
-    public String getPhoto() {
+    public String getFoto() {
         return foto;
     }
 
-    public void setPhoto(String photo) {
+    public void setFoto(String foto) {
         this.foto = foto;
     }
 

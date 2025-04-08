@@ -10,24 +10,24 @@ import org.springframework.stereotype.Service;
 @Service
 public class PostMapper {
 
-    public Post toPost(CreatePostRequest request, Usuario usuario, Tema tema) {
+	public Post toPost(CreatePostRequest request, Usuario usuario, Tema tema) {
         return Post.builder()
-                .id(null)
-                .title(request.title())
-                .content(request.content())
+                .titulo(request.getTitle())  // Alterado para match com o modelo
+                .conteudo(request.getContent())
                 .tema(tema)
                 .usuario(usuario)
+                .dataCriacao(LocalDateTime.now())  // Adicionado campo de data
                 .build();
     }
 
-    public PostResponse fromPost(Post post) {
+    public PostResponse toPostResponse(Post post) {
         return new PostResponse(
-                post.getTitle(),
-                post.getContent(),
-                post.getCreatedAt(),
-                post.getUpdatedAt(),
-                post.getTema() != null ? post.getTema().getDescription() : null,
-                post.getUsuario().getName(),
+                post.getTitulo(),  // Alterado para match com o modelo
+                post.getConteudo(),
+                post.getDataCriacao(),
+                post.getDataAtualizacao(),
+                (post.getTema() != null) ? post.getTema().getDescricao() : null,
+                post.getUsuario().getNome(),  // Alterado para match com o modelo
                 post.getUsuario().getRole().name()
         );
     }

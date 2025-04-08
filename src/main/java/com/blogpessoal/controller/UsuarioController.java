@@ -23,25 +23,25 @@ public class UsuarioController {
 
     @PutMapping("/{usuarioId}")
     @Transactional
-    public ResponseEntity<UserResponse> updateUser(@PathVariable UUID userId,
+    public ResponseEntity<UserResponse> updateUser(@PathVariable UUID usuarioId,
                                                    @Valid @RequestBody UpdateUserRequest request) {
-        UserResponse updatedUser = usuarioService.updateUser(userId, request);
+        UserResponse updatedUser = usuarioService.updateUser(usuarioId, request);
         return ResponseEntity.ok(updatedUser);
     }
 
     @GetMapping
     public ResponseEntity<List<UserResponse>> getAllUsers() {
-        List<UserResponse> users = usuarioService.findAllUsers();
-        return ResponseEntity.ok(users);
+        List<UserResponse> usuario = usuarioService.findAllUsers();
+        return ResponseEntity.ok(usuario);
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<UserResponse> getUser(@PathVariable UUID userId) {
-        UserResponse user = usuarioService.getUserById(userId);
-        return ResponseEntity.ok(user);
+    @GetMapping("/{usuarioId}")
+    public ResponseEntity<UserResponse> getUser(@PathVariable UUID usuarioId) {
+        UserResponse usuario = usuarioService.getUserById(usuarioId);
+        return ResponseEntity.ok(usuario);
     }
 
-    @DeleteMapping("/{userId}")
+    @DeleteMapping("/{usuarioId}")
     @Transactional
     public ResponseEntity<Void> deleteUser(@PathVariable UUID usuarioId) {
         UsuarioController usuarioService;
